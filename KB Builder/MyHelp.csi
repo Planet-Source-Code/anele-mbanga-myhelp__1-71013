@@ -1,0 +1,16 @@
+[History]
+B0=MyHelp/frmKB/toolKB_ButtonClick
+B1=MyHelp/modKB/Main
+B2=MyHelp/frmKB/AddProject
+B3=MyHelp/modKB/UpdateProgress
+B4=MyHelp/modKB/RemoveUselessTopics
+B5=MyHelp/modKB/Compile_Baggage
+B6=MyHelp/modKB/InsertFile
+B7=MyHelp/modKB/MvRemoveDuplicates
+B8=MyHelp/frmKB/OpenProject
+B9=MyHelp/frmKB/Form_Load
+B10=MyHelp/modKB/RichToHTML
+B11=MyHelp/modKB/Read_Settings
+B12=MyHelp/modKB/Save_Settings
+B13=MyHelp/modKB/Compile_Project
+B14=MyHelp/frmKB/toolKB_ButtonMenuClick
