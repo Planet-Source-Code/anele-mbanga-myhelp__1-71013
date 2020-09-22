@@ -1,0 +1,39 @@
+[OPTIONS]
+CNT=MyHelp.cnt
+ERRORLOG=MyHelp.log
+NOTES=yes
+REPORT=yes
+TITLE=
+FTS=29
+COMPRESS=60 Hall Zeck
+OLDKEYPHRASE=NO
+COPYRIGHT=Made with MyHelp 1.0
+CITATION=Made with MyHelp 1.0
+LCID=0x1c09 0x6 0x0 ; English (South Africa)
+HLP=MyHelp.hlp
+
+[BAGGAGE]
+[FILES]
+MyHelp.rtf
+
+[CONFIG]
+BrowseButtons()
+
+[WINDOWS]
+main="",(20,71,600,783),60677,(r12648447),(r12648447),f3
+
+[MAP]
+#define WhatIsMyhelp 11
+#define New 1
+#define Open 2
+#define Save 3
+#define Delete 4
+#define Compile 5
+#define Topics 6
+#define Insert 7
+#define Print 8
+#define Tools 9
+#define Exit 10
+#define TheTopicToolbar 12
+
+

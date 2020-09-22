@@ -1,0 +1,294 @@
+VERSION 5.00
+Begin VB.Form frmPg 
+   Caption         =   "Processing"
+   ClientHeight    =   2790
+   ClientLeft      =   60
+   ClientTop       =   345
+   ClientWidth     =   5760
+   ClipControls    =   0   'False
+   BeginProperty Font 
+      Name            =   "Tahoma"
+      Size            =   8.25
+      Charset         =   0
+      Weight          =   400
+      Underline       =   0   'False
+      Italic          =   0   'False
+      Strikethrough   =   0   'False
+   EndProperty
+   Icon            =   "frmPgb.frx":0000
+   LinkTopic       =   "Form1"
+   ScaleHeight     =   2790
+   ScaleWidth      =   5760
+   StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton cmdStop 
+      Caption         =   "Stop"
+      Default         =   -1  'True
+      Height          =   375
+      Left            =   4440
+      TabIndex        =   5
+      Top             =   2280
+      Width           =   1215
+   End
+   Begin VB.Timer tmrAnimate 
+      Interval        =   100
+      Left            =   4680
+      Top             =   120
+   End
+   Begin VB.PictureBox Picture1 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   250
+      Left            =   120
+      ScaleHeight     =   195
+      ScaleMode       =   0  'User
+      ScaleWidth      =   100
+      TabIndex        =   0
+      Top             =   1050
+      Width           =   5580
+      Begin VB.CheckBox chkPrg 
+         BackColor       =   &H00FF0000&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00008000&
+         Height          =   200
+         Left            =   0
+         Style           =   1  'Graphical
+         TabIndex        =   1
+         Top             =   0
+         Width           =   5535
+      End
+   End
+   Begin VB.Label lblRecs 
+      Alignment       =   1  'Right Justify
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "1/1 Completed"
+      ForeColor       =   &H00000000&
+      Height          =   195
+      Left            =   4605
+      TabIndex        =   6
+      Top             =   1320
+      Width           =   1050
+   End
+   Begin VB.Label lblHeader 
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
+      Caption         =   "Loading ..."
+      BeginProperty Font 
+         Name            =   "Tahoma"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   120
+      TabIndex        =   4
+      Top             =   1680
+      Width           =   5535
+   End
+   Begin VB.Image imgGo 
+      Height          =   240
+      Index           =   0
+      Left            =   120
+      Picture         =   "frmPgb.frx":014A
+      Top             =   240
+      Width           =   240
+   End
+   Begin VB.Image imgGo 
+      Height          =   240
+      Index           =   1
+      Left            =   2760
+      Picture         =   "frmPgb.frx":0500
+      Top             =   240
+      Width           =   240
+   End
+   Begin VB.Image imgMiddle 
+      Height          =   480
+      Left            =   2520
+      Picture         =   "frmPgb.frx":08A4
+      Top             =   120
+      Width           =   480
+   End
+   Begin VB.Image imgEnd 
+      Height          =   480
+      Left            =   5160
+      Picture         =   "frmPgb.frx":3046
+      Top             =   120
+      Width           =   480
+   End
+   Begin VB.Image imgStart 
+      Height          =   480
+      Left            =   120
+      Picture         =   "frmPgb.frx":3350
+      Top             =   120
+      Width           =   480
+   End
+   Begin VB.Label lblPerc 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "0% Completed"
+      ForeColor       =   &H00000000&
+      Height          =   195
+      Left            =   120
+      TabIndex        =   3
+      Top             =   1365
+      Width           =   1095
+   End
+   Begin VB.Label lblTime 
+      Alignment       =   2  'Center
+      BackColor       =   &H00E0E0E0&
+      BackStyle       =   0  'Transparent
+      Caption         =   "Label1"
+      ForeColor       =   &H00000000&
+      Height          =   225
+      Left            =   120
+      TabIndex        =   2
+      Top             =   840
+      Width           =   5535
+   End
+End
+Attribute VB_Name = "frmPg"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Option Explicit
+Dim Aindex As Integer
+Dim LastPos As Long
+Dim lLastTime As Double
+Dim tLastTime As Variant
+'Sub ProgressShow(Value As Long, maxValue As Long, Optional HeaderX As String = "", Optional color As ColorConstants = &HFF0000)
+'    On Error Resume Next
+'    '' This is the actual progress bar function.
+'    DoEvents
+'    Dim Perc As Integer
+'    Dim lTime As Double
+'    Dim lTimeDiff As Double
+'    Dim lTimeLeft As Double
+'    Dim lTotalTime As Double
+'    'Me.Show
+'    'Get a color to do it in
+'    If color = 0 Then
+'        color = &HFF0000
+'    End If
+'    'Display the header , if any was returned
+'    If HeaderX <> "" Then
+'        lblHeader = HeaderX
+'    Else
+'        lblHeader = "Busy Processing...Please wait"
+'    End If
+'    lblHeader.Refresh
+'    'Now work out the percentage (0-100) of where we currently are
+'    Perc = (Value / maxValue) * 100
+'    If Perc < 0 Then
+'        Perc = 0
+'    End If
+'    If Perc > 100 Then
+'        Perc = 100
+'    End If
+'    Perc = Int(Perc)
+'    'Do the time remaining calculation
+'    'If (Perc Mod 10) = 0 Or Perc = 0 Then
+'    ' Every 10 percent
+'    lTimeDiff = lTime - lLastTime
+'    lTime = Time - tLastTime
+'    If Perc = 0 Or Perc < 0 Then
+'        lTotalTime = ((100 / 1) * 2) * lTime
+'        lTimeLeft = (((100 / 1) * 2) * lTime) - (((100 / 100) * 2) * lTime)
+'    Else
+'        lTotalTime = ((100 / Perc) * 2) * lTime
+'        lTimeLeft = (((100 / Perc) * 2) * lTime) - (((100 / 100) * 2) * lTime)
+'    End If
+'    lblTime.Caption = "Time Remaining : " & Format$((lTimeLeft), "hh:mm:ss")
+'    lblTime.Refresh
+'    'End If
+'    DoEvents
+'    chkPrg.BackColor = color
+'    chkPrg.Refresh
+'    DoEvents
+'    lblPerc.Caption = Int(Perc) & "% Completed" 'Just the Label Display
+'    lblPerc.Refresh
+'    lblRecs.Caption = Format$(Value, "###,###,###,###") & " of " & Format$(maxValue, "###,###,###,###") & " Completed"
+'    lblRecs.Refresh
+'    chkPrg.BackColor = RGB(0, Perc * 2.5, 255 - Perc * 2.5)
+'    chkPrg.Width = Int(Perc)
+'    chkPrg.Refresh
+'    DoEvents
+'    Err.Clear
+'End Sub
+Private Sub cmdStop_Click()
+    On Error Resume Next
+    cmdStop.Tag = "s"
+    Err.Clear
+End Sub
+Private Sub Form_Load()
+    On Error Resume Next
+    tLastTime = Time
+    Aindex = 0
+    LastPos = 720
+    Me.Top = Screen.Height / 2 - Me.Height / 2
+    Me.Left = Screen.Width / 2 - Me.Width / 2
+    DoEvents
+    Err.Clear
+End Sub
+Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
+    On Error Resume Next
+    ' IF CLOSE BUTTON IS PRESSED, HIDE FORM
+    Select Case UnloadMode
+    Case vbFormControlMenu
+        Cancel = 0
+        cmdStop_Click
+    End Select
+    Err.Clear
+End Sub
+Private Sub Form_Resize()
+    On Error Resume Next
+    If WindowState = 2 Then
+        WindowState = 0
+    End If
+    Err.Clear
+End Sub
+Private Sub tmrAnimate_Timer()
+    On Error Resume Next
+    'This funtion will animate a couple of icons , just to show that something is busy hapening
+    DoEvents
+    LastPos = LastPos + 1
+    If LastPos > 2680 And LastPos < 3250 Then
+        LastPos = 3160
+        Aindex = 1
+    Else
+        If LastPos > 5360 Then
+            LastPos = 120
+            Aindex = 0
+        Else
+        End If
+    End If
+    If Aindex = 1 Then
+        imgGo(1).Visible = True
+        imgGo(0).Visible = False
+    Else
+        imgGo(1).Visible = False
+        imgGo(0).Visible = True
+    End If
+    LastPos = LastPos + 200
+    imgGo(Aindex).Left = LastPos
+    imgGo(Aindex).Refresh
+    Err.Clear
+End Sub

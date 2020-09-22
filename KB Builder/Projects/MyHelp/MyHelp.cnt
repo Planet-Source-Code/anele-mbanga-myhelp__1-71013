@@ -1,0 +1,16 @@
+:Base MyHelp.hlp
+:Title MyHelp
+:Index MyHelp=MyHelp.hlp ;(This is necessary when using KLinks - because of a bug in the help
+:Link MyHelp.hlp        ; compiler. Without this only the first keyword would be looked up!)
+1 What Is Myhelp=WhatIsMyhelp@MyHelp.hlp
+1 New=New@MyHelp.hlp
+1 Open=Open@MyHelp.hlp
+1 Save=Save@MyHelp.hlp
+1 Delete=Delete@MyHelp.hlp
+1 Compile=Compile@MyHelp.hlp
+1 Topics=Topics@MyHelp.hlp
+1 Insert=Insert@MyHelp.hlp
+1 Print=Print@MyHelp.hlp
+1 Tools=Tools@MyHelp.hlp
+1 Exit=Exit@MyHelp.hlp
+1 The Topic Toolbar=TheTopicToolbar@MyHelp.hlp
